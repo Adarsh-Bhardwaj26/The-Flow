@@ -6,63 +6,99 @@
     <title>To Do list</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body >
-    <main class="to-do-app">
-      <header>
-        <div class="header-main">
-          <h1>The Flow</h1>
-          <p>YOUR TASKS YOUR PACE</p>
+  <body>
+    <main>
+      <div class="timer-panel left">
+        <div class="timer-container">
+          <div class="timer-display">
+            <div class="outer-circle">
+              <svg class="progress-ring" viewBox="0 0 300 300">
+                <circle class="bg-ring" cx="150" cy="150" r="130" />
+
+                <circle
+                  class="progress-ring-circle"
+                  cx="150"
+                  cy="150"
+                  r="130"
+                />
+              </svg>
+              <div class="inner-circle">
+                <div class="time-display">25:00</div>
+              </div>
+            </div>
+          </div>
+          <div class="session-info">
+            <div class="session_label">SESSION 1: FOCUS</div>
+            <div class="session_progr">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+          <div class="controls">
+            <div class="control_btn">
+              <button class="pause_btn">PAUSE</button>
+              <button class="res_btn">RESET</button>
+            </div>
+          </div>
         </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-moon-icon lucide-moon"
-          id="theme-toggle"
-        >
-          <path
-            d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
-          />
-        </svg>
-      </header>
-      <section class="progress">
-          <div class="progress-track">
-          <div class="progress-fill"></div>
-        </div>
-        <div class="progress-text"></div>
-      </section>
-      <form action="" class="task-form">
-        <input
-          type="text"
-          name="task-input"
-          id="task-input"
-          placeholder="what need to be done ?"
-        />
-        <button class="task-submit" aria-label="Theme toggle" type="submit">
-          Add
-        </button>
-      </form>
-
-      <ul class="task-list">
-
-      </ul>
-
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all">ALL</button>
-        <button class="filter-btn" data-filter="completed">Completed</button>
-
-        <button class="filter-btn" data-filter="pending">Pending</button>
       </div>
-      <footer class="app-footer">
-        localStorage synced · No account needed · 100% private
-      </footer>
+      <div class="to-do-pannel right">
+        <header>
+          <div class="header-main">
+            <h1>The Flow</h1>
+            <p>YOUR TASKS YOUR PACE</p>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-moon-icon lucide-moon"
+            id="theme-toggle"
+          >
+            <path
+              d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"
+            />
+          </svg>
+        </header>
+        <section class="progress">
+          <div class="progress-track">
+            <div class="progress-fill"></div>
+          </div>
+          <div class="progress-text"></div>
+        </section>
+        <form action="" class="task-form">
+          <input
+            type="text"
+            name="task-input"
+            id="task-input"
+            placeholder="what need to be done ?"
+          />
+          <button class="task-submit" aria-label="Theme toggle" type="submit">
+            Add
+          </button>
+        </form>
+
+        <ul class="task-list"></ul>
+
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">ALL</button>
+          <button class="filter-btn" data-filter="completed">Completed</button>
+
+          <button class="filter-btn" data-filter="pending">Pending</button>
+        </div>
+      </div>
     </main>
+    <footer class="app-footer">
+      localStorage synced · No account needed · 100% private
+    </footer>
   </body>
   <script src="p2_TO_do.js"></script>
 </html>

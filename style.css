@@ -3,24 +3,138 @@
   padding: 0;
   box-sizing: border-box;
 }
+main {
+  display: flex;
+  padding: 30px 0;
+  justify-content: center;
+  --color-circle: rgba(74, 144, 226, 0.8);
+}
+.outer-circle {
+  position: relative;
+  width: 300px;
+  margin: 30px auto;
+  height: 300px;
+  padding: 5px;
+  border-radius: 50%;
+}
+.progress-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  filter: drop-shadow(0 0 9px rgba(74, 144, 226, 0.7));
+}
+
+.bg-ring {
+  fill: none;
+  stroke: #ddd;
+  stroke-width: 8;
+}
+
+.progress-ring-circle {
+  fill: none;
+  stroke: var(--color-circle);
+  stroke-width: 8;
+  stroke-linecap: round;
+
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+.time-display {
+  color: var(--color-text);
+  font-size: 4rem;
+  font-weight: 700;
+}
+.inner-circle {
+  background-color: var(--color-body);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+.pause_btn,
+.res_btn {
+  font-weight: 500;
+  padding: 8px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-family: serif;
+  background-color: var(--color-button);
+  color: var(--color-button-text);
+
+  cursor: pointer;
+}
+
+.timer-container {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.session-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cycle_info {
+  align-self: center;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-progress-track);
+  border-radius: 50%;
+}
+.dot.active {
+  background-color: var(--color-progress-fill);
+}
+.session_progr {
+  display: flex;
+  margin-top: 5px;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+}
 body {
   background-color: var(--color-body);
   color: var(--color-text);
   font-family: serif;
 }
-
-.to-do-app {
+.left {
+  border-radius: 12px 0 0 12px;
+  background: linear-gradient(
+    to bottom right,
+    rgba(74, 144, 226, 0.7) 0%,
+    rgba(74, 144, 226, 0.7) 20%,
+    var(--color-body) 100%
+  );
+}
+.right {
+  border-radius: 0 12px 12px 0;
+}
+.to-do-pannel,
+.timer-panel {
   background-color: var(--color-card);
   max-width: 420px;
+  width: 420px;
   height: 550px;
-  margin: 30px auto;
-  border-radius: 12px;
   padding: 10px;
   box-shadow: 0 19px 25px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
 }
 
 body.light {
-  --color-body: #f5f4f0;
+  --color-body: #fffae4;
   --color-card: #ffffff;
   --color-text: #1a1a1a;
   --color-border: #e8e8e8;
@@ -225,14 +339,15 @@ header {
   font-weight: 700;
 }
 
-
-
 @media (max-width: 480px) {
+  .timer-panel.left {
+    display: none; 
+  }
   body {
     padding: 0;
   }
 
-  .to-do-app {
+  .to-do-pannel {
     max-width: 100%;
     width: 100%;
     height: 100svh;
@@ -275,9 +390,24 @@ header {
   }
 }
 
+@media (max-width: 768px) {
+  .timer-panel.left {
+    display: none; 
+  }
+
+  main {
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  .to-do-pannel {
+    max-width: 100%;
+    width: 100%;
+  }
+}
 
 @media (max-width: 480px) and (max-height: 667px) {
-  .to-do-app {
+  .to-do-pannel {
     padding: 12px;
     padding-top: calc(12px + env(safe-area-inset-top));
     padding-bottom: calc(12px + env(safe-area-inset-bottom));

@@ -1,3 +1,173 @@
+
+
+let time_disp = document.querySelector(".time-display");
+const pause_btn = document.querySelector(".pause_btn");
+const res_btn = document.querySelector(".res_btn");
+const session_label = document.querySelector(".session_label");
+const session_prog = document.querySelectorAll(".dot");
+const progress_ring_circle = document.querySelector(".progress-ring-circle");
+
+const radius = 130;
+const circumference = 2 * Math.PI * radius;
+progress_ring_circle.style.strokeDasharray = circumference;
+progress_ring_circle.style.strokeDashoffset = circumference;
+
+const sound = new Audio("sounds/notification.mp3");
+sound.preload = "auto";
+let timeleft = 25 * 60;
+let totalTime = 25 * 60;
+let isRunning = false;
+let intervalId = null;
+let sessionType = "FOCUS";
+let cycle = 1;
+const FOCUS_TIME = 25 * 60;
+const SHORT_BREAK = 5 * 60;
+const LONG_BREAK = 15 * 60;
+
+function saveTimerState() {
+  const timerState = {
+    timeleft,
+    totalTime,
+    sessionType,
+    cycle,
+    isRunning,
+  };
+
+  localStorage.setItem("timerState", JSON.stringify(timerState));
+}
+
+function loadTimerState() {
+  const saved = localStorage.getItem("timerState");
+
+  if (saved) {
+    const data = JSON.parse(saved);
+
+    timeleft = data.timeleft;
+    totalTime = data.totalTime;
+    sessionType = data.sessionType;
+    cycle = data.cycle;
+    isRunning = data.isRunning;
+  }
+}
+loadTimerState();
+
+updateSession();
+updateRing();
+time_disp.textContent = formatTimer(timeleft);
+
+if (isRunning) {
+  timerStart();
+  pause_btn.textContent = "PAUSE";
+}
+
+function switchSession() {
+  if (sessionType === "FOCUS") {
+    if (cycle % 4 === 0) {
+      sessionType = "LONG_BREAK";
+      timeleft = LONG_BREAK;
+    } else {
+      sessionType = "SHORT_BREAK";
+      timeleft = SHORT_BREAK;
+    }
+    cycle++;
+    if (cycle > 4) {
+      cycle = 1;
+    }
+  } else {
+    sessionType = "FOCUS";
+    timeleft = FOCUS_TIME;
+  }
+  totalTime = timeleft;
+  updateRing();
+  updateSession();
+  saveTimerState();
+}
+
+function updateSession() {
+  if (sessionType === "FOCUS") {
+    session_label.textContent = `SESSION ${cycle}: FOCUS`;
+  } else if (sessionType === "SHORT_BREAK") {
+    session_label.textContent = `SHORT BREAK`;
+  } else {
+    session_label.textContent = `LONG BREAK`;
+  }
+  updateDOT();
+}
+
+function updateDOT() {
+  session_prog.forEach((dot, index) => {
+    if (index < cycle - 1) {
+      dot.classList.add("active");
+    } else {
+      dot.classList.remove("active");
+    }
+  });
+}
+
+function updateRing() {
+  let progress = timeleft / totalTime;
+  let offset = progress * circumference;
+  progress_ring_circle.style.strokeDashoffset = offset;
+}
+
+function timerStart() {
+  if (isRunning) return;
+  isRunning = true;
+  intervalId = setInterval(() => {
+    timeleft--;
+    updateRing();
+    saveTimerState();
+    time_disp.textContent = formatTimer(timeleft);
+    if (timeleft <= 0) {
+      clearInterval(intervalId);
+      isRunning = false;
+      sound.play();
+      saveTimerState();
+      switchSession();
+    }
+  }, 1000);
+}
+
+function timerPause() {
+  clearInterval(intervalId);
+  isRunning = false;
+  saveTimerState();
+}
+
+function reset() {
+  clearInterval(intervalId);
+  timeleft = FOCUS_TIME;
+  totalTime = FOCUS_TIME;
+  isRunning = false;
+  sessionType = "FOCUS";
+  cycle = 1;
+  updateRing();
+  updateSession();
+  time_disp.textContent = formatTimer(timeleft);
+  pause_btn.textContent = "START";
+  saveTimerState();
+}
+
+function formatTimer(second) {
+  let min = Math.floor(second / 60);
+  let sec = second % 60;
+  return `${min}:${sec < 10 ? "0" : ""}${sec}`;
+}
+
+pause_btn.addEventListener("click", () => {
+  if (isRunning) {
+    timerPause();
+    pause_btn.textContent = "START";
+  } else {
+    timerStart();
+    pause_btn.textContent = "PAUSE";
+  }
+});
+
+res_btn.addEventListener("click", () => {
+  reset();
+});
+
 let tasks = [];
 let task_input = document.querySelector("#task-input");
 let task_ul = document.querySelector(".task-list");
